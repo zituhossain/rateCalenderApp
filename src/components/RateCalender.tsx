@@ -1,34 +1,31 @@
-// src/components/RateCalender.tsx
-
 import React, { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import DateRangePicker from "./DateRangePicker";
 import RoomCategory from "./RoomCategory";
-import { useRateCalender } from "../hooks/useRateCalender";
+import { useRateCalendar } from "../hooks/useRateCalendar";
 import { DateRange } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { Typography } from "@mui/material";
 
-const RateCalender: React.FC = () => {
+const RateCalendar: React.FC = () => {
   const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([
     dayjs(),
     dayjs().add(7, "day"),
   ]);
 
-  // Format dates to "YYYY-MM-DD"
   const startDate = dateRange[0]?.format("YYYY-MM-DD");
   const endDate = dateRange[1]?.format("YYYY-MM-DD");
 
-  const { data, isPending, error } = useRateCalender(startDate, endDate);
+  const { data, isPending, error } = useRateCalendar(startDate, endDate);
 
   return (
-    <>
-      <h1>Rate Calendar</h1>
+    <div style={{ height: "100vh", overflowY: "auto" }}>
+      <Typography variant="h4">Rate Calendar</Typography>
       <DateRangePicker
         value={dateRange}
         onChange={(newChange) => setDateRange(newChange)}
       />
-
       {isPending && <p>Loading...</p>}
-      {error && <p>Error</p>}
+      {error && <p>Error: {error.message}</p>}
       {data &&
         data.map((room) => (
           <RoomCategory
@@ -39,8 +36,8 @@ const RateCalender: React.FC = () => {
             rate_plans={room.rate_plans}
           />
         ))}
-    </>
+    </div>
   );
 };
 
-export default RateCalender;
+export default RateCalendar;

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Table,
   TableBody,
@@ -11,16 +12,16 @@ interface RatePlan {
   name: string;
   calendar: Array<{
     id: string;
-    date: Date;
+    date: string;
     rate: number;
     min_length_of_stay: number;
     reservation_deadline: number;
   }>;
 }
 
-interface Inventorycalendar {
+interface InventoryCalendar {
   id: string;
-  date: Date;
+  date: string;
   available: number;
   status: boolean;
   booked: number;
@@ -29,57 +30,89 @@ interface Inventorycalendar {
 interface RoomCategoryProps {
   name: string;
   occupancy: number;
-  inventory_calendar: Inventorycalendar[];
+  inventory_calendar: InventoryCalendar[];
   rate_plans: RatePlan[];
 }
 
 const RoomCategory: React.FC<RoomCategoryProps> = ({
   name,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   occupancy,
   inventory_calendar,
   rate_plans,
 }) => {
-  console.log("first", rate_plans);
+  // Extract unique dates for the header
+  const dates = inventory_calendar.map((inventory) => inventory.date);
+  const uniqueDates = Array.from(new Set(dates));
+
   return (
-    <div>
-      <h1>{name}</h1>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Rooms to Sell</TableCell>
-            <TableCell>Net Booked</TableCell>
-            {rate_plans.map((ratePlan) => (
-              <TableCell key={ratePlan.id}>{ratePlan.name}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {inventory_calendar.map((inventory) => (
-            <TableRow key={inventory.id}>
-              <TableCell>
-                {new Date(inventory.date).toLocaleDateString()}
-              </TableCell>
-              <TableCell>{inventory.status ? "Open" : "Closed"}</TableCell>
-              <TableCell>{inventory.available}</TableCell>
-              <TableCell>{inventory.booked}</TableCell>
-              {rate_plans?.map((plan) => {
-                console.log("plan", plan);
-                const rateInfo = plan.calendar
-                  ?.map((a) => a)
-                  .find((r) => r.date === inventory.date);
-                return (
-                  <TableCell key={plan.id}>
-                    {rateInfo ? rateInfo.rate : "N/A"}
-                  </TableCell>
-                );
-              })}
+    <div style={{ marginBottom: "20px" }}>
+      <h2>{name}</h2>
+      <div style={{ overflowX: "auto" }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              {uniqueDates.map((date) => (
+                <TableCell key={date}>
+                  {new Date(date).toLocaleDateString(undefined, {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                  })}
+                </TableCell>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>Status</TableCell>
+              {inventory_calendar.map((inventory) => (
+                <TableCell key={inventory.id}>
+                  {inventory.status ? "Open" : "Closed"}
+                </TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell>Rooms to Sell</TableCell>
+              {inventory_calendar.map((inventory) => (
+                <TableCell key={inventory.id}>{inventory.available}</TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell>Net Booked</TableCell>
+              {inventory_calendar.map((inventory) => (
+                <TableCell key={inventory.id}>{inventory.booked}</TableCell>
+              ))}
+            </TableRow>
+            {rate_plans.map((ratePlan) => (
+              <React.Fragment key={ratePlan.id}>
+                <TableRow>
+                  <TableCell>{ratePlan.name}</TableCell>
+                  {ratePlan.calendar.map((rate) => (
+                    <TableCell key={rate.id}>{rate.rate}</TableCell>
+                  ))}
+                </TableRow>
+                <TableRow>
+                  <TableCell>Min. Length of Stay</TableCell>
+                  {ratePlan.calendar.map((rate) => (
+                    <TableCell key={rate.id}>
+                      {rate.min_length_of_stay}
+                    </TableCell>
+                  ))}
+                </TableRow>
+                <TableRow>
+                  <TableCell>Min. Advance Reservation</TableCell>
+                  {ratePlan.calendar.map((rate) => (
+                    <TableCell key={rate.id}>
+                      {rate.reservation_deadline}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </React.Fragment>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };
