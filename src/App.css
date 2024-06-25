@@ -1,0 +1,18 @@
+/* App.css */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.room-category-table {
+  overflow-x: auto;
+}
+
+.sticky-column {
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+  z-index: 1;
+}

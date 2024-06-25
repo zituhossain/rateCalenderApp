@@ -53,9 +53,32 @@ const RoomCategory: React.FC<RoomCategoryProps> = ({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Date</TableCell>
+              <TableCell
+                style={{
+                  position: "sticky",
+                  left: 0,
+                  backgroundColor: "#fff",
+                  zIndex: 1,
+                }}
+              >
+                Date
+              </TableCell>
               {uniqueDates.map((date) => (
-                <TableCell key={date}>
+                <TableCell
+                  key={date}
+                  style={{
+                    backgroundColor: inventory_calendar.find(
+                      (inventory) => inventory.date === date
+                    )?.status
+                      ? "#fff"
+                      : "red",
+                    color: inventory_calendar.find(
+                      (inventory) => inventory.date === date
+                    )?.status
+                      ? "#000"
+                      : "#fff",
+                  }}
+                >
                   {new Date(date).toLocaleDateString(undefined, {
                     weekday: "short",
                     day: "numeric",
@@ -67,29 +90,85 @@ const RoomCategory: React.FC<RoomCategoryProps> = ({
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>Status</TableCell>
+              <TableCell
+                style={{
+                  position: "sticky",
+                  left: 0,
+                  backgroundColor: "#fff",
+                  zIndex: 1,
+                }}
+              >
+                Status
+              </TableCell>
               {inventory_calendar.map((inventory) => (
-                <TableCell key={inventory.id}>
+                <TableCell
+                  key={inventory.id}
+                  style={{
+                    backgroundColor: inventory.status ? "green" : "red",
+                    color: "#fff",
+                  }}
+                >
                   {inventory.status ? "Open" : "Closed"}
                 </TableCell>
               ))}
             </TableRow>
             <TableRow>
-              <TableCell>Rooms to Sell</TableCell>
+              <TableCell
+                style={{
+                  position: "sticky",
+                  left: 0,
+                  backgroundColor: "#fff",
+                  zIndex: 1,
+                }}
+              >
+                Rooms to Sell
+              </TableCell>
               {inventory_calendar.map((inventory) => (
-                <TableCell key={inventory.id}>{inventory.available}</TableCell>
+                <TableCell
+                  key={inventory.id}
+                  style={{
+                    backgroundColor: inventory.status ? "#fff" : "red",
+                    color: inventory.status ? "#000" : "#fff",
+                  }}
+                >
+                  {inventory.available}
+                </TableCell>
               ))}
             </TableRow>
             <TableRow>
-              <TableCell>Net Booked</TableCell>
+              <TableCell
+                style={{
+                  position: "sticky",
+                  left: 0,
+                  backgroundColor: "#fff",
+                  zIndex: 1,
+                }}
+              >
+                Net Booked
+              </TableCell>
               {inventory_calendar.map((inventory) => (
-                <TableCell key={inventory.id}>{inventory.booked}</TableCell>
+                <TableCell
+                  key={inventory.id}
+                  style={{
+                    backgroundColor: inventory.status ? "#fff" : "red",
+                    color: inventory.status ? "#000" : "#fff",
+                  }}
+                >
+                  {inventory.booked}
+                </TableCell>
               ))}
             </TableRow>
             {rate_plans.map((ratePlan) => (
               <React.Fragment key={ratePlan.id}>
                 <TableRow>
-                  <TableCell>
+                  <TableCell
+                    style={{
+                      position: "sticky",
+                      left: 0,
+                      backgroundColor: "#fff",
+                      zIndex: 1,
+                    }}
+                  >
                     {ratePlan.name}
                     <p>
                       <PersonIcon
@@ -111,21 +190,83 @@ const RoomCategory: React.FC<RoomCategoryProps> = ({
                     </p>
                   </TableCell>
                   {ratePlan.calendar.map((rate) => (
-                    <TableCell key={rate.id}>{rate.rate}</TableCell>
+                    <TableCell
+                      key={rate.id}
+                      style={{
+                        backgroundColor: inventory_calendar.find(
+                          (inventory) => inventory.date === rate.date
+                        )?.status
+                          ? "#fff"
+                          : "red",
+                        color: inventory_calendar.find(
+                          (inventory) => inventory.date === rate.date
+                        )?.status
+                          ? "#000"
+                          : "#fff",
+                      }}
+                    >
+                      {rate.rate}
+                    </TableCell>
                   ))}
                 </TableRow>
                 <TableRow>
-                  <TableCell>Min. Length of Stay</TableCell>
+                  <TableCell
+                    style={{
+                      position: "sticky",
+                      left: 0,
+                      backgroundColor: "#fff",
+                      zIndex: 1,
+                    }}
+                  >
+                    Min. Length of Stay
+                  </TableCell>
                   {ratePlan.calendar.map((rate) => (
-                    <TableCell key={rate.id}>
+                    <TableCell
+                      key={rate.id}
+                      style={{
+                        backgroundColor: inventory_calendar.find(
+                          (inventory) => inventory.date === rate.date
+                        )?.status
+                          ? "#fff"
+                          : "red",
+                        color: inventory_calendar.find(
+                          (inventory) => inventory.date === rate.date
+                        )?.status
+                          ? "#000"
+                          : "#fff",
+                      }}
+                    >
                       {rate.min_length_of_stay}
                     </TableCell>
                   ))}
                 </TableRow>
                 <TableRow>
-                  <TableCell>Min. Advance Reservation</TableCell>
+                  <TableCell
+                    style={{
+                      position: "sticky",
+                      left: 0,
+                      backgroundColor: "#fff",
+                      zIndex: 1,
+                    }}
+                  >
+                    Min. Advance Reservation
+                  </TableCell>
                   {ratePlan.calendar.map((rate) => (
-                    <TableCell key={rate.id}>
+                    <TableCell
+                      key={rate.id}
+                      style={{
+                        backgroundColor: inventory_calendar.find(
+                          (inventory) => inventory.date === rate.date
+                        )?.status
+                          ? "#fff"
+                          : "red",
+                        color: inventory_calendar.find(
+                          (inventory) => inventory.date === rate.date
+                        )?.status
+                          ? "#000"
+                          : "#fff",
+                      }}
+                    >
                       {rate.reservation_deadline}
                     </TableCell>
                   ))}

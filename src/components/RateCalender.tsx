@@ -45,7 +45,9 @@ const RateCalendar: React.FC = () => {
 
   return (
     <div style={{ height: "100vh", overflowY: "auto" }}>
-      <Typography variant="h4">Rate Calendar</Typography>
+      <Typography variant="h4" style={{ marginBottom: "30px" }}>
+        Rate Calendar
+      </Typography>
       <DateRangePicker
         value={dateRange}
         onChange={(newChange) => setDateRange(newChange)}
