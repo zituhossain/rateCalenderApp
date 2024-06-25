@@ -6,6 +6,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface RatePlan {
   id: string;
@@ -87,7 +89,27 @@ const RoomCategory: React.FC<RoomCategoryProps> = ({
             {rate_plans.map((ratePlan) => (
               <React.Fragment key={ratePlan.id}>
                 <TableRow>
-                  <TableCell>{ratePlan.name}</TableCell>
+                  <TableCell>
+                    {ratePlan.name}
+                    <p>
+                      <PersonIcon
+                        sx={{
+                          fontSize: "20px",
+                        }}
+                        color="primary"
+                      />{" "}
+                      <span
+                        style={{
+                          position: "relative",
+                          top: "-4px",
+                          color: "blue",
+                        }}
+                      >
+                        <CloseIcon sx={{ fontSize: "12px" }} color="primary" />{" "}
+                        {occupancy}
+                      </span>
+                    </p>
+                  </TableCell>
                   {ratePlan.calendar.map((rate) => (
                     <TableCell key={rate.id}>{rate.rate}</TableCell>
                   ))}
